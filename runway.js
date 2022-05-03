@@ -11,8 +11,8 @@ let cnv;
 
 function preload() { 
    model = new rw.HostedModel({
-    url: "https://personal-stories-67b5f536.hosted-models.runwayml.cloud/v1/",
-  token: "oEum3TQoJ7cHvEGEu5hJGg==",
+    url: "https://personal-stories-2-547f55d1.hosted-models.runwayml.cloud/v1/",
+    token: "OFsJQeAgwdIGpTdwW6YY/A==",
   });
 }
 function setup(){

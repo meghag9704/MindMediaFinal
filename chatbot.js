@@ -22,6 +22,8 @@ let output_text;
 let slider_val;
 let text_display;
 
+let waitingForResponse = false;
+
 // firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDGKf7fEupgwvYjoH6oNlwRk48k2sdADX8",
@@ -32,6 +34,7 @@ const firebaseConfig = {
   messagingSenderId: "114850818615",
   appId: "1:114850818615:web:dc7cfcb54fa79f1a886db2"
 };
+
 let group;
 let currentDB;
 let typeOfThing = "messages";
@@ -44,7 +47,7 @@ let movedIt = false;
 
 function preload() { 
     model = new rw.HostedModel({
-      url: "https://personal-stories-2-547f55d1.hosted-models.runwayml.cloud/v1/",
+        url: "https://personal-stories-2-547f55d1.hosted-models.runwayml.cloud/v1/",
         token: "OFsJQeAgwdIGpTdwW6YY/A==",
    });
  }
@@ -151,9 +154,8 @@ function gotData(data, id) {
 
 function draw() {
     group = nameInput.value();
-
-  chat();
-  runwayText();
+    chat();
+    runwayText();
 }
 
 function chat() { 
@@ -167,17 +169,21 @@ function chat() {
 }
 
 function runwayText() {
-  fill(0);
-  rect(30, 400, 400, 100);
   textAlign(LEFT);
   textSize(12);
+  fill(0);
   strokeWeight(1)
-  fill(255);
-  text(output_text, 40, 410);
+  text(output_text, 10, 190);
 }
 
 function myInputEvent() {
-  prompt_value = this.value()
+    if(prompt_value = this.value()) { 
+        prompt_value = this.value();
+        waitingForResponse = true;
+    } else { 
+        prompt_value = output_text;
+        waitingForResponse = false;
+    }
 }
 
 function sendText() {
@@ -196,19 +202,24 @@ function sendText() {
     console.log(outputs);
     output_text = outputs.generated_text;
     console.log(output_text);
+
   });
-  queryData();
+//   queryData();
+
+  if(prompt_value != inp.value()) { 
+
+  }
   // console.log(prompt_value);
   let dataToSend = {msg: prompt_value, r: color_r, g: color_g, b: color_b, time_min: minute(), time_hour: hour()};
   console.log(dataToSend);
   messages.push(dataToSend);
   sendTextToDB(dataToSend);
+
   p5l.send(JSON.stringify(dataToSend));
 
 
 }
 
 function queryData() { 
-  
 }
 
